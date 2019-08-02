@@ -22,3 +22,4 @@ elif GPIO.input(7) > 0:
     print("Knop 2 pushed, Wodka jus!")
 elif GPIO.input(22) > 0:
     print("Knop 2 pushed, UPDATE!")
+    Repo.clone_from("https://github.com/veenhof/tom_Project.git", "tom_Project")
