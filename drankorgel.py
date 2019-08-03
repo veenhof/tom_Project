@@ -42,7 +42,8 @@ while(1):                  # Create an infinite Loop
         if GPIO.input(button3)==1: #Repeat above for button 3
                 print "Button 3 Was Pressed:"
                 Repo.clone_from("https://github.com/veenhof/tom_Project.git", "tom_Project")
-                                sleep(.5)
+                sleep(.5)
         else:
                 GPIO.output(relay4,False)
                 sleep(.5)
+
