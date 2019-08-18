@@ -1,47 +1,97 @@
+#!/usr/bin/python
+
+
 import RPi.GPIO as GPIO
-from time import sleep
-GPIO.setmode(GPIO.BCM)
+import time
+switch1 = 24 # enter your switch gpio number here
+switch2 = 20 # enter your switch gpio number here
+
+relay1 = 17 # enter your relay gpio number here
+relay2 = 23 # enter your relay gpio number here
+relay3 = 27 # enter your relay gpio number here
+relay4 = 22 # enter your relay gpio number here
+
+state1 = 0
+state2 = 0
+
+
+GPIO.setmode(GPIO.BCM) # you can change this to Board if you prefere
 GPIO.setwarnings(False)
-#from git import Repo
+GPIO.setup(switch1, GPIO.IN)
+GPIO.setup(switch2, GPIO.IN)
 
-button1 = 20    #6
-GPIO.setup(button1, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-button2 = 24
-GPIO.setup(24, GPIO.IN, pull_up_down = GPIO.PUD_UP)
+GPIO.setup(relay1, GPIO.OUT)
+GPIO.setup(relay2, GPIO.OUT)
+GPIO.setup(relay3, GPIO.OUT)
+GPIO.setup(relay4, GPIO.OUT)
+# set relay off you may need to change this to high if you relay board works active on low, also change state to 1 if this is the case.
+GPIO.output(relay1, GPIO.LOW)
+GPIO.output(relay2, GPIO.LOW)
+GPIO.output(relay3, GPIO.LOW)
+GPIO.output(relay4, GPIO.LOW)
+while True:
+
+# check if switch is pressed and keep checking
+        while GPIO.input(switch1) == 1 and GPIO.input(switch2) == 1:
+                print "waiting for switch press"
+                print(GPIO.input(switch1))
+                print(GPIO.input(switch2))
+                time.sleep(0.5)
+
+        else:
+                # checks current relay state and changes it to the other.
+                if GPIO.input(switch2) == 0 and GPIO.input(switch1) == 1:
+                        print "Setting SWITCH 1  gpio high"
+                        print(GPIO.input(switch1))
+                        print(GPIO.input(switch2))
+                        state1 = 1
+                        GPIO.output(relay3, GPIO.HIGH)
+                        time.sleep(1)
+                        GPIO.output(relay3, GPIO.LOW)
+                        GPIO.output(relay4, GPIO.HIGH)
+                        time.sleep(1)
+                        GPIO.output(relay4, GPIO.LOW)
+                        state1 = 0
+                        print(state1)
+                        print(state2)
+                        time.sleep(1)
+
+                elif GPIO.input(switch1) == 0 and GPIO.input(switch2) == 1:
+                #elif state2 == 0:
+                        print "Setting SWITCH 2  gpio high"
+                        print(GPIO.input(switch1))
+                        print(GPIO.input(switch2))
+                        state2 = 1
+                        GPIO.output(relay1, GPIO.HIGH)
+                        time.sleep(3)
+                        GPIO.output(relay1, GPIO.LOW)
+                        GPIO.output(relay2, GPIO.HIGH)
+                        time.sleep(3)
+                        GPIO.output(relay2, GPIO.LOW)
+                        state2 = 0
+                        print(state1)
+                        print(state2)
+
+                        time.sleep(1)
+                else:
+                        print "setting gpio low"
+                        state1 = 0
+                        state2 = 0
+                        GPIO.output(relay1, GPIO.LOW)
+                        GPIO.output(relay2, GPIO.LOW)
+                        GPIO.output(relay3, GPIO.LOW)
+                        GPIO.output(relay4, GPIO.LOW)
+                        time.sleep(1)
+# check for switch released and keep checking
+        while GPIO.input(switch1) == 0 or GPIO.input(switch2) == 0:
+                print "waiting for switch release"
+                time.sleep(0.5)
 
 
-relay1= 17
-GPIO.setup(17, GPIO.OUT)
-relay2= 23
-GPIO.setup(23, GPIO.OUT)
-relay3= 27
-GPIO.setup(27, GPIO.OUT)
-relay4= 22
 
-while(1):                  # Create an infinite Loop
-    if GPIO.input(button1)==1:            # Look for button 1 press
-        print("Button 1 Was Pressed:")
-        GPIO.output(relay1,True) # turn it on
-        sleep(3.5)             # Delay
-        GPIO.output(relay1,False)
-        GPIO.output(relay2,True) # turn it on
-        sleep(8.5)
-        GPIO.output(relay2,False) # Turn relay 2 off
 
-    else:                         # If the LED is on
-        GPIO.output(relay1,False) # Turn relay 1 off
-        GPIO.output(relay2,False) # Turn relay 2 off
-    if GPIO.input(button2)==0: #Repeat above for button 2
-       print("Button 2 Was Pressed:")
-       GPIO.output(relay3,True)
-       sleep(3.5)
-       GPIO.output(relay3,False)
-        GPIO.output(relay4,True)
-       sleep(8.5)
-       GPIO.output(relay3,False)
-    else:
-        GPIO.output(relay3,False)
-        GPIO.output(relay4,False)
+
+
 #        if GPIO.input(button3)==1: #Repeat above for button 3
 #                print "Button 3 Was Pressed:"
 #                Repo.clone_from("https://github.com/veenhof/tom_Project.git", $
