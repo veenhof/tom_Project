@@ -34,16 +34,16 @@ while True:
 # check if switch is pressed and keep checking
         while GPIO.input(switch1) == 1 and GPIO.input(switch2) == 1:
                 print "waiting for switch press"
-                print(GPIO.input(switch1))
-                print(GPIO.input(switch2))
+                #print(GPIO.input(switch1))
+                #print(GPIO.input(switch2))
                 time.sleep(0.5)
 
         else:
                 # checks current relay state and changes it to the other.
                 if GPIO.input(switch2) == 0 and GPIO.input(switch1) == 1:
                         print "Setting SWITCH 1  gpio high"
-                        print(GPIO.input(switch1))
-                        print(GPIO.input(switch2))
+                        #print(GPIO.input(switch1))
+                        #print(GPIO.input(switch2))
                         state1 = 1
                         GPIO.output(relay3, GPIO.HIGH)
                         time.sleep(1)
@@ -52,15 +52,15 @@ while True:
                         time.sleep(1)
                         GPIO.output(relay4, GPIO.LOW)
                         state1 = 0
-                        print(state1)
-                        print(state2)
+                        #print(state1)
+                        #print(state2)
                         time.sleep(1)
 
                 elif GPIO.input(switch1) == 0 and GPIO.input(switch2) == 1:
                 #elif state2 == 0:
                         print "Setting SWITCH 2  gpio high"
-                        print(GPIO.input(switch1))
-                        print(GPIO.input(switch2))
+                        #print(GPIO.input(switch1))
+                        #print(GPIO.input(switch2))
                         state2 = 1
                         GPIO.output(relay1, GPIO.HIGH)
                         time.sleep(3)
@@ -69,9 +69,8 @@ while True:
                         time.sleep(3)
                         GPIO.output(relay2, GPIO.LOW)
                         state2 = 0
-                        print(state1)
-                        print(state2)
-
+                        #print(state1)
+                        #print(state2)
                         time.sleep(1)
                 else:
                         print "setting gpio low"
